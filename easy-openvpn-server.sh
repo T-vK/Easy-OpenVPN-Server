@@ -35,5 +35,4 @@ cp /etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.c
 cp /etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).key /vpn_files/
 cp /etc/openvpn/ca.crt /vpn_files/$(dig +short myip.opendns.com @resolver1.opendns.com).ca.crt
 chmod 777 -R /vpn_files/
-echo "Server will restart now."
-reboot
+echo "Please reboot the server now."

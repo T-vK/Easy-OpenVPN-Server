@@ -1,27 +1,38 @@
 # Easy OpenVPN Server
 
 ## About
-The goal of this project is to make setting up your own VPN server as easy as possible.
+The goal of this project is to make setting up your own Linux-based VPN server as easy as possible.
+Use at own risk
 
 ## Instructions
 
-### Prerequisites
-- Install the OpenVPN Client software on your computer (For Windows, download the installer [here](https://openvpn.net/community-downloads/) . For Linux, install it by running `sudo apt-get install openvpn`. On Windows you also need to [install puTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
-
-### Install and configure OpenVPN on your Linux server
-- Connect to your server via SSH (On Windows use Putty, on Linux use a terminal) using the root account and run the following command:
-
-``` bash
-curl -o- https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/easy-openvpn-server.sh | bash
+### If your PC (not server) runs Linux, open a terminal and run:
+This will install and configure an OpenVPN server on your Linux server and download the configuration files required to conenct to the VPN:
+```
+export SERVER_IP="x.x.x.x"
+ssh -t "root@$SERVER_IP" "curl -o- https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/easy-openvpn-server.sh | bash"
+sudo apt-get install -y openvpn
+scp "root@$SERVER_IP:/vpn_files/*" /etc/openvpn/
+ssh -t "root@$SERVER_IP" "sh -c 'nohup sh -c \"sleep 1 && reboot &\" > /dev/null 2>&1 && exit && exit'"
 ```
 
-- When the script is done, you will find all the files that you need in order to connect to your VPN in the folder `/vpn_files`.
+If you want to connect to the VPN now, you just run `sudo openvpn --config /etc/openvpn/*.ovpn`
 
-### Connect to your VPN server
-If you're on Linux, you just download the configuration files via scp: `scp -r root@PASTE_YOUR_SERVER_IP_HERE:/vpn_files ~/vpn_files` (enter the root password and press enter).
-If you're on Windows, you download them by opening a Command Line as admin (open start menu, search cmd, rightclick Command Prompt and click Run as admin) and pasting the following: `pscp -r "root@185.233.104.39:/vpn_files" "c:\Program Files\openvpn\config\vpn_files"` (replace YOUR_SERVER_IP, enter the root password and press enter).
-- If you're on Windows: Open your start menu, search OpenVPN and open it. You should now find the OpenVPN icon in the traybar with an option to Connect to your VPN.
-- If you're on Linux: Run `sudo openvpn --config ~/vpn_files/*.ovpn`
+If you want to auto connect whenever your PC starts, also run: `for f in /etc/openvpn/*.ovpn; do sudo mv -- "$f" "${f%.ovpn}.conf"; done` and restart your PC.
+
+### If your PC (not server) runs Windows:
+- Install the OpenVPN Client software on your computer. Download the installer [here](https://openvpn.net/community-downloads/)
+- Install puTTY. Download the installer [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+- Open puTTY, enter the IP address of your server into the `Host Name (or IP address)`-field. Enter `22` into the `Port`-field. Sellect `SSH` as the `Connection Type`.
+- Finally click the `Open`-button at the bottom.
+- A black window should appear where you need to enter a user name (Enter `root` and press enter). Then it will ask for a password, but when you type no characters will show up (this is normal). Enter your server's root password and press enter.
+- Enter the following line:
+    ``` bash
+    curl -o- https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/easy-openvpn-server.sh | bash
+    ```
+- When the script is done, all the files that you need in order to connect to your VPN in the folder `/vpn_files` on your Linux server.
+- To download them, open a Command Line as admin (open start menu, search `cmd`, rightclick `Command Prompt` and click `Run as administrator`). Then paste the following: `pscp -r "root@185.233.104.39:/vpn_files" "c:\Program Files\openvpn\config\vpn_files"` (replace YOUR_SERVER_IP with your actual server IP, then press enter. It will probably ask you something, just enter `y` to accept and press enter. Then it will ask for the root password, so enter it and press enter).
+- Open your start menu, search OpenVPN and open it. You should now find the OpenVPN icon in the traybar with an option to Connect to your VPN.
 
 
 ## Limitations
