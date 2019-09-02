@@ -8,7 +8,7 @@ The goal of this project is to make setting up your own VPN server as easy as po
 - Connect to your server via SSH using the root account and run the following command:
 
 ``` bash
-curl -o- https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/vpn-script.sh | bash
+curl -o- https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/easy-openvpn-server.sh | bash
 ```
 
 - When the script is done, you will find all the files that you need in order to connect to your VPN in the folder `/vpn_files`.  

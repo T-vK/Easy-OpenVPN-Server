@@ -1,5 +1,5 @@
 #!/bin/bash
-CONFIG_HOST="https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/config"
+CONFIG_HOST="https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/config"
 apt-get update && apt-get install -y openvpn easy-rsa ufw
 gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz > /etc/openvpn/server.conf
 curl "${CONFIG_HOST}/server.conf" > /etc/openvpn/server.conf
