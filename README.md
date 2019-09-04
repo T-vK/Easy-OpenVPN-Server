@@ -12,7 +12,7 @@ This will install and configure an OpenVPN server on your Linux server and downl
 export SERVER_IP="x.x.x.x"
 ssh -t "root@$SERVER_IP" "curl -o- https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/easy-openvpn-server.sh | bash"
 sudo apt-get install -y openvpn
-scp "root@$SERVER_IP:/vpn_files/*" /etc/openvpn/
+sudo scp "root@$SERVER_IP:/vpn_files/*" /etc/openvpn/
 ssh -t "root@$SERVER_IP" "sh -c 'nohup sh -c \"sleep 1 && reboot &\" > /dev/null 2>&1 && exit && exit'"
 ```
 
