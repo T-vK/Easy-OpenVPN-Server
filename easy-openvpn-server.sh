@@ -1,6 +1,7 @@
 #!/bin/bash
 CONFIG_HOST="https://raw.githubusercontent.com/T-vK/Easy-OpenVPN-Server/master/config"
 apt-get update && apt-get install -y openvpn easy-rsa ufw
+rm -f "/etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).*"
 gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz > /etc/openvpn/server.conf
 curl "${CONFIG_HOST}/server.conf" > /etc/openvpn/server.conf
 echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -29,6 +30,7 @@ sed -i "s/my-server-1/$(dig +short myip.opendns.com @resolver1.opendns.com)/g" "
 sed -i "s/ca ca\.crt/ca $(dig +short myip.opendns.com @resolver1.opendns.com).ca.crt/g" "/etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).ovpn"
 sed -i "s/cert client\.crt/cert $(dig +short myip.opendns.com @resolver1.opendns.com).crt/g" "/etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).ovpn"
 sed -i "s/key client\.key/key $(dig +short myip.opendns.com @resolver1.opendns.com).key/g" "/etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).ovpn"
+rm -rf /vpn_files
 mkdir /vpn_files
 cp /etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).ovpn /vpn_files/
 cp /etc/openvpn/easy-rsa/keys/$(dig +short myip.opendns.com @resolver1.opendns.com).crt /vpn_files/
